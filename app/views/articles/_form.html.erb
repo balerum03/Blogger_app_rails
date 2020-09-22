@@ -1,5 +1,5 @@
-<%= render partial: 'form' %>
-<%= form_for(@article) do |f| %>
+<%= stylesheet_link_tag 'styles' %>
+<%= form_for(@article, html: {multipart: true}) do |f| %>
   <ul>
   <% @article.errors.full_messages.each do |error| %>
     <li><%= error %></li>
@@ -14,11 +14,16 @@
     <%= f.text_area :body %>
   </p>
   <p>
-    <%= f.submit %>
-  </p>
-  <p>
     <%= f.label :tag_list %><br />
     <%= f.text_field :tag_list %>
   </p>
-
+  <p>
+  <% if @article.image.exists? %>
+      <%= image_tag @article.image.url(:medium) %><br/>
+  <% end %>
+  <%= f.label :image, "Attach a New Image" %><br />
+  <%= f.file_field :image %>
+  </p>
+    <%= f.submit %>
+  </p>
 <% end %>
